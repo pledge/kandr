@@ -1,0 +1,60 @@
+#include <stdio.h>
+
+#define MAXLINE 1000
+#define SPACE ' '
+#define TAB '\t'
+
+int getline(char line[], int maxline);
+int remainingSpaces(int offset, int tabsize);
+void printSpaces(int spaces);
+
+int main()
+{
+	char line[MAXLINE];
+	int i, pos, spaces;
+	int tabsize = 4;
+
+	while(getline(line, MAXLINE) > 0) {
+		for (i = 0, pos = 0; line[i] != '\0'; i++) {
+			if(line[i] == TAB) {
+				spaces = remainingSpaces(pos, tabsize);
+				printSpaces(spaces);
+				pos = pos + spaces;
+			} else {
+				putchar(line[i]);
+				pos++;
+			}
+		}
+	}
+
+
+	return 0;
+}
+
+void printSpaces(int spaces)
+{
+	for (int i = 0; i < spaces; i++) {
+		putchar(SPACE);
+	}
+}
+
+int remainingSpaces(int offset, int tabsize)
+{
+	return tabsize - (offset % tabsize);
+}
+
+int getline(char s[], int lim)
+{
+	int c, i;
+
+	for (i = 0; i < lim-1 && (c=getchar()) != EOF && c != '\n'; ++i) {
+		s[i] = c;
+	}
+
+	if (c == '\n') {
+		s[i] = c;
+		++i;
+	}
+	s[i] = '\0';
+	return i;
+}
